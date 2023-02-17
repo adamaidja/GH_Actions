@@ -36,4 +36,16 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
-        
+          
+      - name: Convert JTL to HTML
+        run: |
+          apache-jmeter-${JMETER_VERSION}/bin/jmeter -g jtl-file.jtl -o html-report
+          mv html-report report
+        env:
+          JAVA_HOME: "/usr/lib/jvm/java-14-openjdk-amd64"
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: report
